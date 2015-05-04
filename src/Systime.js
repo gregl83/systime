@@ -3,8 +3,9 @@ var EventEmitter = require('events').EventEmitter;
 
 
 /**
- * System time keeper
+ * System time keeper (chainable)
  *
+ * @returns {Systime} self
  * @constructor
  * @augments EventEmitter
  */
@@ -14,6 +15,8 @@ function Systime() {
   EventEmitter.call(self);
 
   self._timeout = null;
+
+  return self;
 }
 
 
@@ -25,6 +28,7 @@ util.inherits(Systime, EventEmitter);
  *
  * Note: Uses self-calling 1 second (1000 ms) timeouts (adjusts to track system time)
  *
+ * @returns {Systime} self
  * @fires Systime#second
  * @fires Systime#minute
  * @fires Systime#hour
@@ -42,11 +46,15 @@ Systime.prototype._trackTime = function() {
   var timeToSecond = 1000 - date.getTime() % 1000;
   var timeIncomplete = (timeToSecond < 10);
 
-  if (timeIncomplete) return self._timeout = setTimeout(self._trackTime, timeToSecond);
+  if (timeIncomplete) {
+    return self._timeout = setTimeout(function() {
+      self._trackTime()
+    }, timeToSecond);
+  }
 
   self.emit('second');
 
-  self._timeout = setTimeout(function () {
+  self._timeout = setTimeout(function() {
     if (date.getSeconds() !== 0) return self._trackTime();
 
     self.emit('minute');
@@ -71,6 +79,7 @@ Systime.prototype._trackTime = function() {
 /**
  * Start tracking system time
  *
+ * @returns {Systime} self
  * @fires Systime#start
  */
 Systime.prototype.start = function() {
@@ -79,12 +88,15 @@ Systime.prototype.start = function() {
   self.emit('start');
 
   self._trackTime();
+
+  return self;
 };
 
 
 /**
  * Stop tracking system time
  *
+ * @returns {Systime} self
  * @fires Systime#stop
  */
 Systime.prototype.stop = function() {
@@ -93,6 +105,8 @@ Systime.prototype.stop = function() {
   clearTimeout(self._timeout);
 
   self.emit('stop');
+
+  return self;
 };
 
 
