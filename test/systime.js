@@ -41,6 +41,8 @@ describe('systime', function() {
     sinon.assert.calledOnce(_trackTime);
     sinon.assert.calledOnce(onStart);
 
+    start.returned(sinon.match.same(systime));
+
     done();
   });
 
@@ -118,7 +120,24 @@ describe('systime', function() {
   });
 
   it('stop', function(done) {
-    // todo
+    var _trackTime = sandbox.stub(Systime.prototype, '_trackTime');
+    var stop = sandbox.spy(Systime.prototype, 'stop');
+    var clear = sandbox.stub(global, 'clearTimeout');
+
+    _trackTime.returnsThis();
+
+    var systime = new Systime();
+
+    var onStop = sinon.spy();
+    systime.on('stop', onStop);
+
+    systime.start().stop();
+
+    sinon.assert.calledOnce(stop);
+    sinon.assert.calledOnce(clear);
+    sinon.assert.calledOnce(onStop);
+
+    stop.returned(sinon.match.same(systime));
 
     done();
   });
