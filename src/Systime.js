@@ -3,7 +3,7 @@ var EventEmitter = require('events').EventEmitter;
 
 
 /**
- * System Time Keeper
+ * System time keeper
  *
  * @constructor
  * @augments EventEmitter
@@ -15,7 +15,7 @@ function Systime() {
 
   self._timeout = null;
 
-  self._trackTime();
+  self.start();
 }
 
 
@@ -23,9 +23,9 @@ util.inherits(Systime, EventEmitter);
 
 
 /**
- * Tracks System Time and Emits Interval Events (second, minute, hour, day, etc)
+ * Tracks system time and emits interval events (second, minute, hour, day, etc)
  *
- * Note: Uses Self Calling 1 second (1000 ms) Timeouts (adjusts to track system time)
+ * Note: Uses self-calling 1 second (1000 ms) timeouts (adjusts to track system time)
  *
  * @fires Systime#second
  * @fires Systime#minute
@@ -67,6 +67,34 @@ Systime.prototype._trackTime = function() {
 
     self._trackTime();
   }, timeToSecond);
+};
+
+
+/**
+ * Start tracking system time
+ *
+ * @fires Systime#start
+ */
+Systime.prototype.start = function() {
+  var self = this;
+
+  self._trackTime();
+
+  self.emit('start');
+};
+
+
+/**
+ * Stop tracking system time
+ *
+ * @fires Systime#stop
+ */
+Systime.prototype.stop = function() {
+  var self = this;
+
+  clearTimeout(self._timeout);
+
+  self.emit('stop');
 };
 
 

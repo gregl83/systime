@@ -20,6 +20,17 @@ systime.on('day', function() {
   console.log('day');
 });
 
+systime.on('week', function() {
+  console.log('week');
+});
+
+systime.on('month', function() {
+  console.log('month');
+});
+
+systime.on('year', function() {
+  console.log('year');
+});
 
 //describe('systime', function() {
 //  // todo write tests
