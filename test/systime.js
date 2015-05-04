@@ -27,7 +27,19 @@ describe('systime', function() {
   });
 
   it('start', function(done) {
-    // todo
+    var start = sandbox.spy(Systime.prototype, 'start');
+    var _trackTime = sandbox.stub(Systime.prototype, '_trackTime');
+
+    var systime = new Systime();
+
+    var onStart = sinon.spy();
+    systime.on('start', onStart);
+
+    systime.start();
+
+    sinon.assert.calledOnce(start);
+    sinon.assert.calledOnce(_trackTime);
+    sinon.assert.calledOnce(onStart);
 
     done();
   });
