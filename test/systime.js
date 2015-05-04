@@ -2,6 +2,7 @@ var should = require('should');
 var sinon = require('sinon');
 
 var Systime = require('../');
+
 var systime = new Systime();
 
 systime.on('second', function() {
@@ -31,6 +32,8 @@ systime.on('month', function() {
 systime.on('year', function() {
   console.log('year');
 });
+
+systime.start();
 
 //describe('systime', function() {
 //  // todo write tests

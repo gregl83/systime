@@ -14,8 +14,6 @@ function Systime() {
   EventEmitter.call(self);
 
   self._timeout = null;
-
-  self.start();
 }
 
 
