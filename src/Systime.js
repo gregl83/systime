@@ -61,6 +61,10 @@ Systime.prototype._trackTime = function() {
 
     if (date.getDay() === 0) self.emit('week');
 
+    if (date.getDate() === 1) self.emit('month');
+
+    if (date.getMonth() === 0) self.emit('year');
+
     self._trackTime();
   }, timeToSecond);
 };
