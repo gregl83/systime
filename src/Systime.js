@@ -78,9 +78,9 @@ Systime.prototype._trackTime = function() {
 Systime.prototype.start = function() {
   var self = this;
 
-  self._trackTime();
-
   self.emit('start');
+
+  self._trackTime();
 };
 
 
