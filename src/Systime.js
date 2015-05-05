@@ -46,31 +46,29 @@ Systime.prototype._trackTime = function() {
   var timeToSecond = 1000 - date.getTime() % 1000;
   var timeIncomplete = (timeToSecond < 10);
 
-  if (timeIncomplete) {
-    return self._timeout = setTimeout(function() {
-      self._trackTime()
-    }, timeToSecond);
+  if (!timeIncomplete) {
+    self.emit('second');
+    if (date.getSeconds() === 0) {
+      self.emit('minute');
+      if (date.getMinutes() === 0) {
+        self.emit('hour');
+        if (date.getHours() === 0) {
+          self.emit('day');
+          if (date.getDay() === 0) {
+            self.emit('week');
+            if (date.getDate() === 1) {
+              self.emit('month');
+              if (date.getMonth() === 0) {
+                self.emit('year');
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
-  self.emit('second');
-
   self._timeout = setTimeout(function() {
-    if (date.getSeconds() !== 0) return self._trackTime();
-
-    self.emit('minute');
-
-    if (date.getMinutes() !== 0) return self._trackTime();
-
-    self.emit('hour');
-
-    if (date.getHours() === 0) self.emit('day');
-
-    if (date.getDay() === 0) self.emit('week');
-
-    if (date.getDate() === 1) self.emit('month');
-
-    if (date.getMonth() === 0) self.emit('year');
-
     self._trackTime();
   }, timeToSecond);
 };

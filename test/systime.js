@@ -46,22 +46,22 @@ describe('systime', function() {
     done();
   });
 
-  it('timeout runs again if fast', function(done) {
+  it('timeout ahead of system time', function(done) {
     var _trackTime = sandbox.spy(Systime.prototype, '_trackTime');
     var timeout = sandbox.stub(global, 'setTimeout');
     var getTime = sandbox.stub(Date.prototype, 'getTime');
-
-    getTime
-      .onFirstCall()
-      .returns(999)
-      .onSecondCall()
-      .returns(950);
 
     timeout
       .onFirstCall()
       .callsArg(0)
       .onSecondCall()
       .returns(null);
+
+    getTime
+      .onFirstCall()
+      .returns(999)
+      .onSecondCall()
+      .returns(950);
 
     var systime = new Systime();
 
@@ -77,44 +77,291 @@ describe('systime', function() {
     done();
   });
 
-  it('sample test', function(done) {
-    // fixme
+  it('emit second', function(done) {
+    var timeout = sandbox.stub(global, 'setTimeout');
+    var getTime = sandbox.stub(Date.prototype, 'getTime');
 
-    //var stub = sandbox.stub(Date.prototype, 'getTime');
-    //
-    //stub.returns('time');
-    //
-    //var systime = new Systime();
-    //
-    //systime.on('second', function() {
-    //  console.log('second');
-    //});
-    //
-    //systime.on('minute', function() {
-    //  console.log('minute');
-    //});
-    //
-    //systime.on('hour', function() {
-    //  console.log('hour');
-    //});
-    //
-    //systime.on('day', function() {
-    //  console.log('day');
-    //});
-    //
-    //systime.on('week', function() {
-    //  console.log('week');
-    //});
-    //
-    //systime.on('month', function() {
-    //  console.log('month');
-    //});
-    //
-    //systime.on('year', function() {
-    //  console.log('year');
-    //});
-    //
-    //systime.start().stop();
+    timeout.returns(null);
+    getTime.returns(950);
+
+    var systime = new Systime();
+
+    var onSecond = sinon.spy();
+    systime.on('second', onSecond);
+
+    systime.start();
+
+    sinon.assert.calledOnce(onSecond);
+
+    done();
+  });
+
+  it('emit minute sans hour', function(done) {
+    var timeout = sandbox.stub(global, 'setTimeout');
+    var getTime = sandbox.stub(Date.prototype, 'getTime');
+    var getSeconds = sandbox.stub(Date.prototype, 'getSeconds');
+    var getMinutes = sandbox.stub(Date.prototype, 'getMinutes');
+
+    timeout.returns(null);
+    getTime.returns(950);
+    getSeconds.returns(0);
+    getMinutes.returns(1);
+
+    var systime = new Systime();
+
+    var onSecond = sinon.spy();
+    systime.on('second', onSecond);
+
+    var onMinute = sinon.spy();
+    systime.on('minute', onMinute);
+
+    var onHour = sinon.spy();
+    systime.on('hour', onHour);
+
+    systime.start();
+
+    sinon.assert.calledOnce(onSecond);
+    sinon.assert.calledOnce(onMinute);
+    sinon.assert.notCalled(onHour);
+
+    done();
+  });
+
+  it('emit hour sans day', function(done) {
+    var timeout = sandbox.stub(global, 'setTimeout');
+    var getTime = sandbox.stub(Date.prototype, 'getTime');
+    var getSeconds = sandbox.stub(Date.prototype, 'getSeconds');
+    var getMinutes = sandbox.stub(Date.prototype, 'getMinutes');
+    var getHours = sandbox.stub(Date.prototype, 'getHours');
+
+    timeout.returns(null);
+    getTime.returns(950);
+    getSeconds.returns(0);
+    getMinutes.returns(0);
+    getHours.returns(1);
+
+    var systime = new Systime();
+
+    var onSecond = sinon.spy();
+    systime.on('second', onSecond);
+
+    var onMinute = sinon.spy();
+    systime.on('minute', onMinute);
+
+    var onHour = sinon.spy();
+    systime.on('hour', onHour);
+
+    var onDay = sinon.spy();
+    systime.on('day', onDay);
+
+    systime.start();
+
+    sinon.assert.calledOnce(onSecond);
+    sinon.assert.calledOnce(onMinute);
+    sinon.assert.calledOnce(onHour);
+    sinon.assert.notCalled(onDay);
+
+    done();
+  });
+
+  it('emit day sans week', function(done) {
+    var timeout = sandbox.stub(global, 'setTimeout');
+    var getTime = sandbox.stub(Date.prototype, 'getTime');
+    var getSeconds = sandbox.stub(Date.prototype, 'getSeconds');
+    var getMinutes = sandbox.stub(Date.prototype, 'getMinutes');
+    var getHours = sandbox.stub(Date.prototype, 'getHours');
+    var getDay = sandbox.stub(Date.prototype, 'getDay');
+
+    timeout.returns(null);
+    getTime.returns(950);
+    getSeconds.returns(0);
+    getMinutes.returns(0);
+    getHours.returns(0);
+    getDay.returns(1);
+
+    var systime = new Systime();
+
+    var onSecond = sinon.spy();
+    systime.on('second', onSecond);
+
+    var onMinute = sinon.spy();
+    systime.on('minute', onMinute);
+
+    var onHour = sinon.spy();
+    systime.on('hour', onHour);
+
+    var onDay = sinon.spy();
+    systime.on('day', onDay);
+
+    var onWeek = sinon.spy();
+    systime.on('week', onWeek);
+
+    systime.start();
+
+    sinon.assert.calledOnce(onSecond);
+    sinon.assert.calledOnce(onMinute);
+    sinon.assert.calledOnce(onHour);
+    sinon.assert.calledOnce(onDay);
+    sinon.assert.notCalled(onWeek);
+
+    done();
+  });
+
+  it('emit week sans sans', function(done) {
+    var timeout = sandbox.stub(global, 'setTimeout');
+    var getTime = sandbox.stub(Date.prototype, 'getTime');
+    var getSeconds = sandbox.stub(Date.prototype, 'getSeconds');
+    var getMinutes = sandbox.stub(Date.prototype, 'getMinutes');
+    var getHours = sandbox.stub(Date.prototype, 'getHours');
+    var getDay = sandbox.stub(Date.prototype, 'getDay');
+    var getDate = sandbox.stub(Date.prototype, 'getDate');
+
+    timeout.returns(null);
+    getTime.returns(950);
+    getSeconds.returns(0);
+    getMinutes.returns(0);
+    getHours.returns(0);
+    getDay.returns(0);
+    getDate.returns(2);
+
+    var systime = new Systime();
+
+    var onSecond = sinon.spy();
+    systime.on('second', onSecond);
+
+    var onMinute = sinon.spy();
+    systime.on('minute', onMinute);
+
+    var onHour = sinon.spy();
+    systime.on('hour', onHour);
+
+    var onDay = sinon.spy();
+    systime.on('day', onDay);
+
+    var onWeek = sinon.spy();
+    systime.on('week', onWeek);
+
+    var onMonth = sinon.spy();
+    systime.on('month', onMonth);
+
+    systime.start();
+
+    sinon.assert.calledOnce(onSecond);
+    sinon.assert.calledOnce(onMinute);
+    sinon.assert.calledOnce(onHour);
+    sinon.assert.calledOnce(onDay);
+    sinon.assert.calledOnce(onWeek);
+    sinon.assert.notCalled(onMonth);
+
+    done();
+  });
+
+  it('emit month sans year', function(done) {
+    var timeout = sandbox.stub(global, 'setTimeout');
+    var getTime = sandbox.stub(Date.prototype, 'getTime');
+    var getSeconds = sandbox.stub(Date.prototype, 'getSeconds');
+    var getMinutes = sandbox.stub(Date.prototype, 'getMinutes');
+    var getHours = sandbox.stub(Date.prototype, 'getHours');
+    var getDay = sandbox.stub(Date.prototype, 'getDay');
+    var getDate = sandbox.stub(Date.prototype, 'getDate');
+    var getMonth = sandbox.stub(Date.prototype, 'getMonth');
+
+    timeout.returns(null);
+    getTime.returns(950);
+    getSeconds.returns(0);
+    getMinutes.returns(0);
+    getHours.returns(0);
+    getDay.returns(0);
+    getDate.returns(1);
+    getMonth.returns(1);
+
+    var systime = new Systime();
+
+    var onSecond = sinon.spy();
+    systime.on('second', onSecond);
+
+    var onMinute = sinon.spy();
+    systime.on('minute', onMinute);
+
+    var onHour = sinon.spy();
+    systime.on('hour', onHour);
+
+    var onDay = sinon.spy();
+    systime.on('day', onDay);
+
+    var onWeek = sinon.spy();
+    systime.on('week', onWeek);
+
+    var onMonth = sinon.spy();
+    systime.on('month', onMonth);
+
+    var onYear = sinon.spy();
+    systime.on('year', onYear);
+
+    systime.start();
+
+    sinon.assert.calledOnce(onSecond);
+    sinon.assert.calledOnce(onMinute);
+    sinon.assert.calledOnce(onHour);
+    sinon.assert.calledOnce(onDay);
+    sinon.assert.calledOnce(onWeek);
+    sinon.assert.calledOnce(onMonth);
+    sinon.assert.notCalled(onYear);
+
+    done();
+  });
+
+  it('emit year plus all others', function(done) {
+    var timeout = sandbox.stub(global, 'setTimeout');
+    var getTime = sandbox.stub(Date.prototype, 'getTime');
+    var getSeconds = sandbox.stub(Date.prototype, 'getSeconds');
+    var getMinutes = sandbox.stub(Date.prototype, 'getMinutes');
+    var getHours = sandbox.stub(Date.prototype, 'getHours');
+    var getDay = sandbox.stub(Date.prototype, 'getDay');
+    var getDate = sandbox.stub(Date.prototype, 'getDate');
+    var getMonth = sandbox.stub(Date.prototype, 'getMonth');
+
+    timeout.returns(null);
+    getTime.returns(950);
+    getSeconds.returns(0);
+    getMinutes.returns(0);
+    getHours.returns(0);
+    getDay.returns(0);
+    getDate.returns(1);
+    getMonth.returns(0);
+
+    var systime = new Systime();
+
+    var onSecond = sinon.spy();
+    systime.on('second', onSecond);
+
+    var onMinute = sinon.spy();
+    systime.on('minute', onMinute);
+
+    var onHour = sinon.spy();
+    systime.on('hour', onHour);
+
+    var onDay = sinon.spy();
+    systime.on('day', onDay);
+
+    var onWeek = sinon.spy();
+    systime.on('week', onWeek);
+
+    var onMonth = sinon.spy();
+    systime.on('month', onMonth);
+
+    var onYear = sinon.spy();
+    systime.on('year', onYear);
+
+    systime.start();
+
+    sinon.assert.calledOnce(onSecond);
+    sinon.assert.calledOnce(onMinute);
+    sinon.assert.calledOnce(onHour);
+    sinon.assert.calledOnce(onDay);
+    sinon.assert.calledOnce(onWeek);
+    sinon.assert.calledOnce(onMonth);
+    sinon.assert.calledOnce(onYear);
 
     done();
   });
