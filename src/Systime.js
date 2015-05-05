@@ -46,19 +46,19 @@ Systime.prototype._trackTime = function() {
   var timeIncomplete = (timeToSecond < 10);
 
   if (!timeIncomplete) {
-    self.emit('second');
+    self.emit('second', date);
     if (date.getSeconds() === 0) {
-      self.emit('minute');
+      self.emit('minute', date);
       if (date.getMinutes() === 0) {
-        self.emit('hour');
+        self.emit('hour', date);
         if (date.getHours() === 0) {
-          self.emit('day');
+          self.emit('day', date);
           if (date.getDay() === 0) {
-            self.emit('week');
+            self.emit('week', date);
             if (date.getDate() === 1) {
-              self.emit('month');
+              self.emit('month', date);
               if (date.getMonth() === 0) {
-                self.emit('year');
+                self.emit('year', date);
               }
             }
           }

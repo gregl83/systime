@@ -2,8 +2,8 @@ var Systime = require('../');
 
 var systime = new Systime();
 
-systime.on('second', function() {
-  console.log(new Date());
+systime.on('second', function(date) {
+  console.log(date);
 });
 
 systime.on('minute', function() {

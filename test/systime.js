@@ -121,7 +121,11 @@ describe('systime', function() {
     systime.start();
 
     sinon.assert.calledOnce(onSecond);
+    sinon.assert.calledWith(onSecond, sinon.match.date);
+
     sinon.assert.calledOnce(onMinute);
+    sinon.assert.calledWith(onMinute, sinon.match.date);
+
     sinon.assert.notCalled(onHour);
 
     done();
@@ -157,8 +161,14 @@ describe('systime', function() {
     systime.start();
 
     sinon.assert.calledOnce(onSecond);
+    sinon.assert.calledWith(onSecond, sinon.match.date);
+
     sinon.assert.calledOnce(onMinute);
+    sinon.assert.calledWith(onMinute, sinon.match.date);
+
     sinon.assert.calledOnce(onHour);
+    sinon.assert.calledWith(onHour, sinon.match.date);
+
     sinon.assert.notCalled(onDay);
 
     done();
@@ -199,9 +209,17 @@ describe('systime', function() {
     systime.start();
 
     sinon.assert.calledOnce(onSecond);
+    sinon.assert.calledWith(onSecond, sinon.match.date);
+
     sinon.assert.calledOnce(onMinute);
+    sinon.assert.calledWith(onMinute, sinon.match.date);
+
     sinon.assert.calledOnce(onHour);
+    sinon.assert.calledWith(onHour, sinon.match.date);
+
     sinon.assert.calledOnce(onDay);
+    sinon.assert.calledWith(onDay, sinon.match.date);
+
     sinon.assert.notCalled(onWeek);
 
     done();
@@ -247,10 +265,20 @@ describe('systime', function() {
     systime.start();
 
     sinon.assert.calledOnce(onSecond);
+    sinon.assert.calledWith(onSecond, sinon.match.date);
+
     sinon.assert.calledOnce(onMinute);
+    sinon.assert.calledWith(onMinute, sinon.match.date);
+
     sinon.assert.calledOnce(onHour);
+    sinon.assert.calledWith(onHour, sinon.match.date);
+
     sinon.assert.calledOnce(onDay);
+    sinon.assert.calledWith(onDay, sinon.match.date);
+
     sinon.assert.calledOnce(onWeek);
+    sinon.assert.calledWith(onWeek, sinon.match.date);
+
     sinon.assert.notCalled(onMonth);
 
     done();
@@ -301,11 +329,23 @@ describe('systime', function() {
     systime.start();
 
     sinon.assert.calledOnce(onSecond);
+    sinon.assert.calledWith(onSecond, sinon.match.date);
+
     sinon.assert.calledOnce(onMinute);
+    sinon.assert.calledWith(onMinute, sinon.match.date);
+
     sinon.assert.calledOnce(onHour);
+    sinon.assert.calledWith(onHour, sinon.match.date);
+
     sinon.assert.calledOnce(onDay);
+    sinon.assert.calledWith(onDay, sinon.match.date);
+
     sinon.assert.calledOnce(onWeek);
+    sinon.assert.calledWith(onWeek, sinon.match.date);
+
     sinon.assert.calledOnce(onMonth);
+    sinon.assert.calledWith(onMonth, sinon.match.date);
+
     sinon.assert.notCalled(onYear);
 
     done();
@@ -356,12 +396,25 @@ describe('systime', function() {
     systime.start();
 
     sinon.assert.calledOnce(onSecond);
+    sinon.assert.calledWith(onSecond, sinon.match.date);
+
     sinon.assert.calledOnce(onMinute);
+    sinon.assert.calledWith(onMinute, sinon.match.date);
+
     sinon.assert.calledOnce(onHour);
+    sinon.assert.calledWith(onHour, sinon.match.date);
+
     sinon.assert.calledOnce(onDay);
+    sinon.assert.calledWith(onDay, sinon.match.date);
+
     sinon.assert.calledOnce(onWeek);
+    sinon.assert.calledWith(onWeek, sinon.match.date);
+
     sinon.assert.calledOnce(onMonth);
+    sinon.assert.calledWith(onMonth, sinon.match.date);
+
     sinon.assert.calledOnce(onYear);
+    sinon.assert.calledWith(onYear, sinon.match.date);
 
     done();
   });
