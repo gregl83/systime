@@ -34,6 +34,8 @@ util.inherits(Systime, EventEmitter);
  * @fires Systime#hour
  * @fires Systime#day
  * @fires Systime#week
+ * @fires Systime#month
+ * @fires Systime#year
  * @private
  */
 Systime.prototype._trackTime = function() {
