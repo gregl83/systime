@@ -32,7 +32,8 @@ var Systime = require('systime');
 
 var systime = new Systime();
 
-// bind listeners to zero or more of the following events (each callback has a date object argument)
+// bind listeners to zero or more of the following events
+// (each callback has a date object argument)
 
 systime.on('second', function(date) {
   console.log(date);
@@ -64,10 +65,10 @@ systime.on('year', function() {
 
 systime.start(); // start systime
 
-// systime will run until the process has exited or the systime.stop() method is called
+// runs until process has exited or systime.stop() method called
 ```
 
-The above will start systime and console.log when event listeners are triggered.
+The above starts systime and console logs as event listeners are triggered.
 
 See `./example/events.js` for working example.
 
