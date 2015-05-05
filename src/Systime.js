@@ -42,7 +42,6 @@ Systime.prototype._trackTime = function() {
   clearTimeout(self._timeout);
 
   var date = new Date();
-
   var timeToSecond = 1000 - date.getTime() % 1000;
   var timeIncomplete = (timeToSecond < 10);
 
