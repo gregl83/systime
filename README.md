@@ -12,7 +12,7 @@ For more information on computer clocks and time see [NTP.org](http://www.ntp.or
 
 ## Requirements
 
-- NodeJS v0.10.x or higher
+- NodeJS v5.11.x or higher
 - NPM
 
 See `./package.json`
@@ -28,42 +28,28 @@ Source available on [GitHub](https://github.com/gregl83/systime) or install modu
 After requiring systime create a new instance. Bind event listeners to systime then call the start method.
 
 ```js
-var Systime = require('systime');
+var Systime = require('systime')
 
-var systime = new Systime();
+var systime = new Systime()
 
 // bind listeners to zero or more of the following events
 // (each callback has a date object argument)
 
-systime.on('second', function(date) {
-  console.log(date);
-});
+systime.on('second', date => console.log(date))
 
-systime.on('minute', function() {
-  console.log('new minute');
-});
+systime.on('minute', () => console.log('new minute'))
 
-systime.on('hour', function() {
-  console.log('new hour');
-});
+systime.on('hour', () => console.log('new hour'))
 
-systime.on('day', function() {
-  console.log('new day');
-});
+systime.on('day', () => console.log('new day'))
 
-systime.on('week', function() {
-  console.log('new week');
-});
+systime.on('week', () => console.log('new week'))
 
-systime.on('month', function() {
-  console.log('new month');
-});
+systime.on('month', () => console.log('new month'))
 
-systime.on('year', function() {
-  console.log('new year');
-});
+systime.on('year', () => console.log('new year'))
 
-systime.start(); // start systime
+systime.start() // start systime
 
 // runs until process has exited or systime.stop() method called
 ```

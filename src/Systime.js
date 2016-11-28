@@ -1,5 +1,5 @@
-var util = require('util');
-var EventEmitter = require('events').EventEmitter;
+var util = require('util')
+var EventEmitter = require('events').EventEmitter
 
 
 /**
@@ -10,17 +10,17 @@ var EventEmitter = require('events').EventEmitter;
  * @augments EventEmitter
  */
 function Systime() {
-  var self = this;
+  var self = this
 
-  EventEmitter.call(self);
+  EventEmitter.call(self)
 
-  self._timeout = null;
+  self._timeout = null
 
-  return self;
+  return self
 }
 
 
-util.inherits(Systime, EventEmitter);
+util.inherits(Systime, EventEmitter)
 
 
 /**
@@ -39,28 +39,28 @@ util.inherits(Systime, EventEmitter);
  * @private
  */
 Systime.prototype._trackTime = function() {
-  var self = this;
+  var self = this
 
-  clearTimeout(self._timeout);
+  clearTimeout(self._timeout)
 
-  var date = new Date();
-  var timeToSecond = 1000 - date.getTime() % 1000;
-  var timeIncomplete = (timeToSecond < 10);
+  var date = new Date()
+  var timeToSecond = 1000 - date.getTime() % 1000
+  var timeIncomplete = (timeToSecond < 10)
 
   if (!timeIncomplete) {
-    self.emit('second', date);
+    self.emit('second', date)
     if (date.getSeconds() === 0) {
-      self.emit('minute', date);
+      self.emit('minute', date)
       if (date.getMinutes() === 0) {
-        self.emit('hour', date);
+        self.emit('hour', date)
         if (date.getHours() === 0) {
-          self.emit('day', date);
+          self.emit('day', date)
           if (date.getDay() === 0) {
-            self.emit('week', date);
+            self.emit('week', date)
             if (date.getDate() === 1) {
-              self.emit('month', date);
+              self.emit('month', date)
               if (date.getMonth() === 0) {
-                self.emit('year', date);
+                self.emit('year', date)
               }
             }
           }
@@ -69,9 +69,7 @@ Systime.prototype._trackTime = function() {
     }
   }
 
-  self._timeout = setTimeout(function() {
-    self._trackTime();
-  }, timeToSecond);
+  self._timeout = setTimeout(() => self._trackTime(), timeToSecond)
 };
 
 
@@ -82,14 +80,14 @@ Systime.prototype._trackTime = function() {
  * @fires Systime#start
  */
 Systime.prototype.start = function() {
-  var self = this;
+  var self = this
 
-  self.emit('start');
+  self.emit('start')
 
-  self._trackTime();
+  self._trackTime()
 
-  return self;
-};
+  return self
+}
 
 
 /**
@@ -99,14 +97,14 @@ Systime.prototype.start = function() {
  * @fires Systime#stop
  */
 Systime.prototype.stop = function() {
-  var self = this;
+  var self = this
 
-  clearTimeout(self._timeout);
+  clearTimeout(self._timeout)
 
-  self.emit('stop');
+  self.emit('stop')
 
-  return self;
-};
+  return self
+}
 
 
-module.exports = Systime;
+module.exports = Systime
